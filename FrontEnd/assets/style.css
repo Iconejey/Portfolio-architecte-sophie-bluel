@@ -133,6 +133,7 @@ body {
 	margin: auto;
 	font-family: 'Work Sans';
 	font-size: 14px;
+	background-color: #fffef8;
 }
 header {
 	display: flex;
@@ -237,32 +238,6 @@ li:hover {
 .gallery img {
 	width: 100%;
 }
-#contact {
-	width: 50%;
-	margin: auto;
-}
-#contact > * {
-	text-align: center;
-}
-#contact h2 {
-	margin-bottom: 20px;
-}
-#contact form {
-	text-align: left;
-	margin-top: 30px;
-	display: flex;
-	flex-direction: column;
-}
-
-#contact input {
-	height: 50px;
-	font-size: 1.2em;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-#contact label {
-	margin: 2em 0 1em 0;
-}
 #contact textarea {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -283,4 +258,62 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em;
+}
+
+#contact,
+#login {
+	width: 50%;
+	margin: auto;
+	text-align: center;
+}
+
+#contact h2 {
+	margin-bottom: 20px;
+}
+
+#login h2 {
+	margin-top: 150px;
+}
+
+form {
+	text-align: left;
+	margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+
+	& input {
+		height: 50px;
+		font-size: 1.2em;
+		border: none;
+		box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	}
+
+	& label {
+		margin: 2em 0 1em 0;
+	}
+}
+
+#login p {
+	text-align: center;
+}
+
+#login a {
+	color: #3d3d3d;
+	text-decoration: underline;
+}
+
+.error-message {
+	color: #d32f2f;
+	background-color: #ffebee;
+	padding: 10px;
+	margin-bottom: 16px;
+}
+
+nav a {
+	color: inherit;
+	text-decoration: none;
+
+	&:hover {
+		color: #b1663c;
+	}
 }

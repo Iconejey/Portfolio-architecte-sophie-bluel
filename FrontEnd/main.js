@@ -1,3 +1,25 @@
+// Check if user is logged in and update interface
+function updateAuthInterface() {
+	const token = localStorage.getItem('token');
+	const authLink = document.getElementById('auth-link');
+
+	if (token) {
+		authLink.innerHTML = '<a href="#" id="logout-link">logout</a>';
+		authLink.querySelector('a').onclick = logout;
+	} else {
+		authLink.innerHTML = '<a href="login.html">login</a>';
+	}
+
+	document.body.classList.toggle('logged-in', !!token);
+}
+
+// Logout function
+function logout(e) {
+	e.preventDefault();
+	localStorage.clear();
+	window.location.reload();
+}
+
 async function getCategories() {
 	const res_categories = await fetch('http://localhost:5678/api/categories');
 	return await res_categories.json();
@@ -69,6 +91,9 @@ async function main() {
 		// Show all works
 		showWorks(works);
 	};
+
+	// Update authentication interface
+	updateAuthInterface();
 }
 
 main();
