@@ -97,3 +97,17 @@ async function main() {
 }
 
 main();
+
+// Modal handling
+const modalOverlay = document.querySelector('.overlay');
+const editButton = document.querySelector('#portfolio #edit');
+const closeModalButton = document.querySelector('.modal .close');
+
+closeModalButton.onclick = () => modalOverlay.classList.remove('open');
+modalOverlay.onclick = e => {
+	if (e.target === modalOverlay) modalOverlay.classList.remove('open');
+};
+
+editButton.onclick = () => {
+	modalOverlay.classList.add('open');
+};

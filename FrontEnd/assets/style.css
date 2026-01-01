@@ -268,7 +268,8 @@ li:hover {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type='submit'] {
+input[type='submit'],
+button:not(.close, .back) {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -313,7 +314,8 @@ form {
 	display: flex;
 	flex-direction: column;
 
-	& input {
+	& input,
+	& button:not(.close, .back) {
 		height: 50px;
 		font-size: 1.2em;
 		border: none;
@@ -347,5 +349,63 @@ nav a {
 
 	&:hover {
 		color: #b1663c;
+	}
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	&:not(.open) {
+		display: none;
+	}
+}
+.modal {
+	background-color: white;
+	padding: 20px;
+	border-radius: 8px;
+	width: 630px;
+	max-width: 90%;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	align-items: stretch;
+
+	& nav {
+		display: flex;
+		justify-content: space-between;
+		align-self: stretch;
+
+		& .close,
+		& .back {
+			cursor: pointer;
+			background: none;
+			border: none;
+			font-size: 1.5rem;
+		}
+	}
+
+	& form {
+		margin-top: 0;
+		padding: 0 4rem;
+
+		& h3 {
+			font-size: 28px;
+			text-align: center;
+		}
+
+		& hr {
+			width: 100%;
+			border: none;
+			border-top: 2px solid #ccc;
+			margin: 2rem 0 0 0;
+		}
 	}
 }
