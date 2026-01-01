@@ -108,6 +108,25 @@ modalOverlay.onclick = e => {
 	if (e.target === modalOverlay) modalOverlay.classList.remove('open');
 };
 
-editButton.onclick = () => {
+editButton.onclick = async () => {
+	// Populate modal with works
+	const modalGallery = document.querySelector('.modal-gallery');
+	modalGallery.innerHTML = '';
+
+	for (const work of await getWorks()) {
+		const workElement = document.createElement('div');
+		workElement.classList.add('modal-work');
+
+		workElement.innerHTML = `
+			<img src="${work.imageUrl}" alt="${work.title}" />
+			<button class="delete-work" data-id="${work.id}">
+				<i class="fas fa-trash-alt"></i>
+			</button>
+		`;
+
+		modalGallery.appendChild(workElement);
+	}
+
+	// open modal
 	modalOverlay.classList.add('open');
 };

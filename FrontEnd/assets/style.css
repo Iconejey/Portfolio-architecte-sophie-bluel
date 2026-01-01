@@ -269,7 +269,7 @@ li:hover {
 }
 
 input[type='submit'],
-button:not(.close, .back) {
+button:not(.close, .back, .delete-work) {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -315,7 +315,7 @@ form {
 	flex-direction: column;
 
 	& input,
-	& button:not(.close, .back) {
+	& button:not(.close, .back, .delete-work),
 		height: 50px;
 		font-size: 1.2em;
 		border: none;
@@ -395,10 +395,40 @@ nav a {
 	& form {
 		margin-top: 0;
 		padding: 0 4rem;
+		box-shadow: none;
 
 		& h3 {
 			font-size: 28px;
 			text-align: center;
+		}
+
+		& .modal-gallery {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 2rem;
+
+			& .modal-work {
+				width: calc(20% - 10px);
+				position: relative;
+
+				& img {
+					width: 100%;
+				}
+
+				& .delete-work {
+					background-color: black;
+					border: none;
+					color: white;
+					cursor: pointer;
+					font-size: .7rem;
+					height: 1.4rem;
+					border-radius: 4px;
+					position: absolute;
+					right: 0.5rem;
+					top: 0.5rem;
+				}
+			}
 		}
 
 		& hr {
