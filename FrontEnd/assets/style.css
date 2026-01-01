@@ -204,6 +204,26 @@ li:hover {
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
+	position: relative;
+
+	& #edit {
+		position: absolute;
+		font-size: 1rem;
+		cursor: pointer;
+		color: black;
+		margin-left: 2rem;
+		top: 0.5rem;
+		font-weight: normal;
+		font-family: 'Work Sans';
+
+		& i {
+			margin-right: 0.25rem;
+		}
+
+		body:not(.logged-in) & {
+			display: none;
+		}
+	}
 }
 #categories {
 	display: flex;
