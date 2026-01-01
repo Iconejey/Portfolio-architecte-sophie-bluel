@@ -226,6 +226,11 @@ li:hover {
 			color: white;
 		}
 	}
+
+	body.logged-in & {
+		opacity: 0;
+		pointer-events: none;
+	}
 }
 .gallery {
 	width: 100%;
