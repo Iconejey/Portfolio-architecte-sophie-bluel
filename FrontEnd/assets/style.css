@@ -257,6 +257,13 @@ input[type='submit'] {
 	width: 180px;
 	text-align: center;
 	border-radius: 60px;
+	cursor: pointer;
+
+	&:hover,
+	&:focus,
+	&:active {
+		background-color: #0e2f28;
+	}
 }
 
 footer nav ul {
