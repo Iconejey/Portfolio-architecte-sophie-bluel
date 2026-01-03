@@ -126,15 +126,27 @@ fileInputPlaceholder.onclick = () => fileInput.click();
 
 fileInput.onchange = e => {
 	const file = e.target.files[0];
-	if (file) {
-		const reader = new FileReader();
-		reader.onload = e => {
-			modal.querySelector('.preview-image').src = e.target.result;
-			fileInputPlaceholder.style.display = 'none';
-			modal.querySelector('.file-preview').style.display = 'flex';
-		};
-		reader.readAsDataURL(file);
+	if (!file) return;
+
+	// Validate file size (4MB max)
+	if (file.size > 4 * 1024 * 1024) {
+		fileInput.value = '';
+		return alert(`Le fichier est trop volumineux. Taille maximale autorisée : 4Mo`);
 	}
+
+	// Validate file type (additional check)
+	if (!['image/jpeg', 'image/png'].includes(file.type)) {
+		fileInput.value = '';
+		return alert('Format de fichier non autorisé. Utilisez uniquement JPG ou PNG.');
+	}
+
+	const reader = new FileReader();
+	reader.onload = e => {
+		modal.querySelector('.preview-image').src = e.target.result;
+		fileInputPlaceholder.style.display = 'none';
+		modal.querySelector('.file-preview').style.display = 'flex';
+	};
+	reader.readAsDataURL(file);
 };
 
 // Reset add photo form
