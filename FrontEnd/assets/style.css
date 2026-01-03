@@ -315,7 +315,7 @@ form {
 	flex-direction: column;
 
 	& input,
-	& button:not(.close, .back, .delete-work),
+	& button:not(.close, .back, .delete-work) {
 		height: 50px;
 		font-size: 1.2em;
 		border: none;
