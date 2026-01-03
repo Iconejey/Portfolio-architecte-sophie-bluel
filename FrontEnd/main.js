@@ -13,23 +13,26 @@ function updateAuthInterface() {
 	document.body.classList.toggle('logged-in', !!token);
 }
 
-// Logout function
+// Logout
 function logout(e) {
 	e.preventDefault();
 	localStorage.clear();
 	window.location.reload();
 }
 
+// Get categories from API
 async function getCategories() {
 	const res_categories = await fetch('http://localhost:5678/api/categories');
 	return await res_categories.json();
 }
 
+// Get works from API
 async function getWorks() {
 	const res_works = await fetch('http://localhost:5678/api/works');
 	return await res_works.json();
 }
 
+// Display works in page gallery
 function showWorks(works) {
 	const galleryContainer = document.querySelector('.gallery');
 
@@ -51,6 +54,7 @@ function showWorks(works) {
 	}
 }
 
+// Select category
 function selectCategory(elem) {
 	// Remove "selected" class from all categories
 	document.querySelector('.category.selected').classList.remove('selected');
@@ -59,6 +63,7 @@ function selectCategory(elem) {
 	elem.classList.add('selected');
 }
 
+// Main function to initialize the page
 async function main() {
 	// Works (all by default)
 	const works = await getWorks();
