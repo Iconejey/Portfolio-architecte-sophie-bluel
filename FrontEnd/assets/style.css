@@ -275,7 +275,8 @@ button:not(.close, .back, .delete-work) {
 	color: white;
 	background-color: #1d6154;
 	margin: 2em auto;
-	width: 180px;
+	min-width: 180px;
+	padding: 0 1.5em;
 	text-align: center;
 	border-radius: 60px;
 	cursor: pointer;
@@ -396,17 +397,18 @@ nav a {
 		margin-top: 0;
 		padding: 0 4rem;
 		box-shadow: none;
+		display: flex;
 
 		& h3 {
 			font-size: 28px;
 			text-align: center;
+			margin-bottom: 2rem;
 		}
 
 		& .modal-gallery {
 			display: flex;
 			flex-wrap: wrap;
 			gap: 10px;
-			margin-top: 2rem;
 
 			& .modal-work {
 				width: calc(20% - 10px);
@@ -421,7 +423,7 @@ nav a {
 					border: none;
 					color: white;
 					cursor: pointer;
-					font-size: .7rem;
+					font-size: 0.7rem;
 					height: 1.4rem;
 					border-radius: 4px;
 					position: absolute;
@@ -437,5 +439,93 @@ nav a {
 			border-top: 2px solid #ccc;
 			margin: 2rem 0 0 0;
 		}
+
+		& .add-photo:hover {
+			background-color: #0f4c44;
+		}
+
+		& label {
+			font-weight: 500;
+			font-size: 14px;
+			margin-bottom: 7px;
+		}
+
+		& input[type='text'],
+		& select {
+			height: 51px;
+			font-size: 1.2em;
+			border: none;
+			box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+			margin-bottom: 20px;
+			padding: 0 15px;
+		}
+
+		& .file-input-container {
+			margin-bottom: 20px;
+		}
+
+		& .file-input-placeholder {
+			background-color: #e8f1f6;
+			border-radius: 3px;
+			padding: 28px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			cursor: pointer;
+		}
+
+		& .file-input-placeholder i {
+			font-size: 4rem;
+			color: #b9c5cc;
+		}
+
+		& .file-input-btn {
+			background-color: #cbd6dc;
+			color: #306685;
+			border: none;
+			padding: 10px 33px;
+			border-radius: 50px;
+			cursor: pointer;
+			font-family: 'Work Sans';
+			font-size: 14px;
+			font-weight: 500;
+		}
+
+		& .file-info {
+			font-size: 10px;
+			color: #444;
+		}
+
+		& .file-preview {
+			background-color: #e8f4f8;
+			border-radius: 3px;
+			height: 170px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+		}
+
+		& .preview-image {
+			max-width: 100%;
+			max-height: 100%;
+		}
+	}
+
+	/* When showing gallery form */
+	&:not(.show-add-photo) {
+		& .back {
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		& #add-photo-form {
+			display: none;
+		}
+	}
+
+	/* When showing add photo form */
+	&.show-add-photo #gallery-form {
+		display: none;
 	}
 }

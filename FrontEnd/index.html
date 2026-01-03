@@ -85,11 +85,31 @@
 						<i class="fas fa-times"></i>
 					</button>
 				</nav>
-				<form>
+				<form id="gallery-form">
 					<h3>Galerie Photo</h3>
 					<div class="modal-gallery"></div>
 					<hr />
-					<button class="add-photo">Ajouter une photo</button>
+					<button type="button" class="add-photo">Ajouter une photo</button>
+				</form>
+				<form id="add-photo-form">
+					<h3>Ajout photo</h3>
+					<div class="file-input-container">
+						<div class="file-input-placeholder">
+							<i class="fas fa-image"></i>
+							<button type="button" class="file-input-btn">+ Ajouter photo</button>
+							<span class="file-info">jpg, png : 4Mo max</span>
+						</div>
+						<div class="file-preview" style="display: none">
+							<img class="preview-image" src="" alt="Preview" />
+						</div>
+						<input type="file" id="photo-file" accept="image/jpeg,image/png" style="display: none" />
+					</div>
+					<label for="photo-title">Titre</label>
+					<input type="text" id="photo-title" name="title" required />
+					<label for="photo-category">Catégorie</label>
+					<select id="photo-category" name="category" required></select>
+					<hr />
+					<button type="submit" class="add-photo">Valider</button>
 				</form>
 			</div>
 		</div>

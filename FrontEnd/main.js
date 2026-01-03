@@ -105,17 +105,67 @@ main();
 
 // Modal handling
 const modalOverlay = document.querySelector('.overlay');
-const editButton = document.querySelector('#portfolio #edit');
-const closeModalButton = document.querySelector('.modal .close');
+const modal = document.querySelector('.modal');
+const fileInput = modal.querySelector('#photo-file');
+const fileInputPlaceholder = modal.querySelector('.file-input-placeholder');
 
-closeModalButton.onclick = () => modalOverlay.classList.remove('open');
+// Close modal functionality
+document.querySelector('.modal .close').onclick = () => modalOverlay.classList.remove('open');
 modalOverlay.onclick = e => {
 	if (e.target === modalOverlay) modalOverlay.classList.remove('open');
 };
 
-editButton.onclick = async () => {
-	// Populate modal with works
-	const modalGallery = document.querySelector('.modal-gallery');
+// Add photo button functionality
+document.querySelector('.modal .add-photo').onclick = () => modal.classList.add('show-add-photo');
+
+// Back button functionality
+document.querySelector('.modal .back').onclick = () => modal.classList.remove('show-add-photo');
+
+// File input functionality
+fileInputPlaceholder.onclick = () => fileInput.click();
+
+fileInput.onchange = e => {
+	const file = e.target.files[0];
+	if (file) {
+		const reader = new FileReader();
+		reader.onload = e => {
+			modal.querySelector('.preview-image').src = e.target.result;
+			fileInputPlaceholder.style.display = 'none';
+			modal.querySelector('.file-preview').style.display = 'flex';
+		};
+		reader.readAsDataURL(file);
+	}
+};
+
+// Reset add photo form
+function resetAddPhotoForm() {
+	fileInput.value = '';
+	modal.querySelector('#photo-title').value = '';
+	modal.querySelector('#photo-category').value = '';
+	fileInputPlaceholder.style.display = 'flex';
+	modal.querySelector('.file-preview').style.display = 'none';
+	modal.querySelector('.preview-image').src = '';
+}
+
+// Populate modal categories
+async function populateModalCategories() {
+	const categorySelect = modal.querySelector('#photo-category');
+	const categories = await getCategories();
+
+	// Clear existing options except the first empty one
+	categorySelect.innerHTML = '<option value=""></option>';
+
+	categories.forEach(category => {
+		const option = document.createElement('option');
+		option.value = category.id;
+		option.textContent = category.name;
+		categorySelect.appendChild(option);
+	});
+}
+
+// Populate modal works
+async function populateModalWorks() {
+	const modalGallery = modal.querySelector('.modal-gallery');
 	modalGallery.innerHTML = '';
 
 	for (const work of await getWorks()) {
@@ -131,7 +181,13 @@ editButton.onclick = async () => {
 
 		modalGallery.appendChild(workElement);
 	}
+}
 
-	// open modal
+// Open modal
+document.querySelector('#portfolio #edit').onclick = async () => {
+	resetAddPhotoForm();
+	populateModalWorks();
+	populateModalCategories();
+	modal.classList.remove('show-add-photo');
 	modalOverlay.classList.add('open');
 };
