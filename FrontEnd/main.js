@@ -27,19 +27,23 @@ async function getCategories() {
 }
 
 // Get works from API
-async function getWorks() {
+let works = [];
+async function fetchWorks() {
 	const res_works = await fetch('http://localhost:5678/api/works');
-	return await res_works.json();
+	works = await res_works.json();
 }
 
 // Display works in page gallery
-function showWorks(works) {
+function showWorks(category = null) {
 	const galleryContainer = document.querySelector('.gallery');
 
 	// Clear gallery
 	galleryContainer.innerHTML = '';
 
-	for (const work of works) {
+	// Filter works by category if provided
+	const filteredWorks = category ? works.filter(work => work.categoryId === category) : works;
+
+	for (const work of filteredWorks) {
 		const workElement = document.createElement('div');
 		workElement.classList.add('work');
 
@@ -66,8 +70,8 @@ function selectCategory(elem) {
 // Main function to initialize the page
 async function main() {
 	// Works (all by default)
-	const works = await getWorks();
-	showWorks(works);
+	await fetchWorks();
+	showWorks();
 
 	// Categories
 	const categories = await getCategories();
@@ -84,7 +88,7 @@ async function main() {
 			selectCategory(e.target);
 
 			// Filter works
-			showWorks(works.filter(work => work.categoryId === category.id));
+			showWorks(category.id);
 		};
 	}
 
@@ -94,7 +98,7 @@ async function main() {
 		selectCategory(e.target);
 
 		// Show all works
-		showWorks(works);
+		showWorks();
 	};
 
 	// Update authentication interface
@@ -180,7 +184,7 @@ async function populateModalWorks() {
 	const modalGallery = modal.querySelector('.modal-gallery');
 	modalGallery.innerHTML = '';
 
-	for (const work of await getWorks()) {
+	for (const work of works) {
 		const workElement = document.createElement('div');
 		workElement.classList.add('modal-work');
 
