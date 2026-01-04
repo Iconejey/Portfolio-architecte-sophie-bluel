@@ -199,6 +199,53 @@ async function populateModalWorks() {
 	}
 }
 
+// Submit add photo form
+document.querySelector('#add-photo-form').onsubmit = async e => {
+	e.preventDefault();
+
+	const fileInput = document.querySelector('#photo-file');
+	const titleInput = document.querySelector('#photo-title');
+	const categorySelect = document.querySelector('#photo-category');
+
+	// Make an image is selected
+	if (!fileInput.files[0]) return alert('Veuillez sélectionner une image');
+
+	// Create FormData for file upload
+	const formData = new FormData();
+	formData.append('image', fileInput.files[0]);
+	formData.append('title', titleInput.value.trim());
+	formData.append('category', parseInt(categorySelect.value));
+
+	// Reset form
+	resetAddPhotoForm();
+
+	try {
+		const response = await fetch('http://localhost:5678/api/works', {
+			method: 'POST',
+			headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+			body: formData
+		});
+
+		if (!response.ok) return alert(`Erreur ${response.status}: ${response.statusText}`);
+
+		const newWork = await response.json();
+
+		// Add the new work to the existing works array and refresh the display
+		works.push(newWork);
+		showWorks();
+
+		// Close modal and reset form
+		modalOverlay.classList.remove('open');
+		alert('Photo ajoutée avec succès!');
+
+		// Scroll to the newly added work
+		const lastWorkElement = document.querySelector('.gallery .work:last-child');
+		lastWorkElement?.scrollIntoView({ behavior: 'smooth' });
+	} catch (error) {
+		alert("Erreur lors de l'ajout de la photo :\n" + error.message);
+	}
+};
+
 // Open modal
 document.querySelector('#portfolio #edit').onclick = async () => {
 	resetAddPhotoForm();
