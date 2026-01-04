@@ -188,14 +188,44 @@ async function populateModalWorks() {
 		const workElement = document.createElement('div');
 		workElement.classList.add('modal-work');
 
-		workElement.innerHTML = `
-			<img src="${work.imageUrl}" alt="${work.title}" />
-			<button class="delete-work" data-id="${work.id}">
-				<i class="fas fa-trash-alt"></i>
-			</button>
-		`;
+		const img = document.createElement('img');
+		img.src = work.imageUrl;
+		img.alt = work.title;
 
+		const deleteButton = document.createElement('button');
+		deleteButton.type = 'button';
+		deleteButton.classList.add('delete-work');
+		deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+		deleteButton.onclick = () => deleteWork(work.id);
+
+		workElement.appendChild(img);
+		workElement.appendChild(deleteButton);
 		modalGallery.appendChild(workElement);
+	}
+}
+
+// Delete work function
+async function deleteWork(workId) {
+	if (!confirm('Êtes-vous sûr de vouloir supprimer cette image ?')) return;
+
+	try {
+		const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+			method: 'DELETE',
+			headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+		});
+
+		if (!response.ok) throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+
+		// Remove work from array
+		works = works.filter(work => work.id !== workId);
+
+		// Refresh both gallery and modal
+		showWorks();
+		populateModalWorks();
+
+		alert('Image supprimée avec succès!');
+	} catch (error) {
+		alert("Erreur lors de la suppression de l'image: " + error.message);
 	}
 }
 
@@ -226,7 +256,7 @@ document.querySelector('#add-photo-form').onsubmit = async e => {
 			body: formData
 		});
 
-		if (!response.ok) return alert(`Erreur ${response.status}: ${response.statusText}`);
+		if (!response.ok) throw new Error(`Erreur ${response.status}: ${response.statusText}`);
 
 		const newWork = await response.json();
 
