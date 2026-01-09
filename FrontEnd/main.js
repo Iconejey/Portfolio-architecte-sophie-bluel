@@ -130,17 +130,23 @@ fileInputPlaceholder.onclick = () => fileInput.click();
 
 fileInput.onchange = e => {
 	const file = e.target.files[0];
-	if (!file) return;
+	if (!file) {
+		// File was removed/cancelled, validate form
+		validateAddPhotoForm();
+		return;
+	}
 
 	// Validate file size (4MB max)
 	if (file.size > 4 * 1024 * 1024) {
 		fileInput.value = '';
+		validateAddPhotoForm();
 		return alert(`Le fichier est trop volumineux. Taille maximale autorisée : 4Mo`);
 	}
 
 	// Validate file type (additional check)
 	if (!['image/jpeg', 'image/png'].includes(file.type)) {
 		fileInput.value = '';
+		validateAddPhotoForm();
 		return alert('Format de fichier non autorisé. Utilisez uniquement JPG ou PNG.');
 	}
 
@@ -151,6 +157,9 @@ fileInput.onchange = e => {
 		modal.querySelector('.file-preview').style.display = 'flex';
 	};
 	reader.readAsDataURL(file);
+
+	// Validate form after file selection
+	validateAddPhotoForm();
 };
 
 // Reset add photo form
@@ -161,6 +170,25 @@ function resetAddPhotoForm() {
 	fileInputPlaceholder.style.display = 'flex';
 	modal.querySelector('.file-preview').style.display = 'none';
 	modal.querySelector('.preview-image').src = '';
+	validateAddPhotoForm(); // Re-validate form after reset
+}
+
+// Validate add photo form and enable/disable submit button
+function validateAddPhotoForm() {
+	const fileInput = modal.querySelector('#photo-file');
+	const titleInput = modal.querySelector('#photo-title');
+	const categorySelect = modal.querySelector('#photo-category');
+	const submitButton = modal.querySelector('#add-photo-form button[type="submit"]');
+
+	// Check if all required fields are filled
+	const hasFile = fileInput.files && fileInput.files.length > 0;
+	const hasTitle = titleInput.value.trim() !== '';
+	const hasCategory = categorySelect.value !== '';
+
+	const isFormValid = hasFile && hasTitle && hasCategory;
+
+	// Enable/disable submit button
+	submitButton.disabled = !isFormValid;
 }
 
 // Populate modal categories
@@ -283,4 +311,8 @@ document.querySelector('#portfolio #edit').onclick = async () => {
 	populateModalCategories();
 	modal.classList.remove('show-add-photo');
 	modalOverlay.classList.add('open');
+
+	// Add event listeners for form validation
+	modal.querySelector('#photo-title').oninput = validateAddPhotoForm;
+	modal.querySelector('#photo-category').onchange = validateAddPhotoForm;
 };

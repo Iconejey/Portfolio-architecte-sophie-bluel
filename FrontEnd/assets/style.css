@@ -286,6 +286,17 @@ button:not(.close, .back, .delete-work) {
 	&:active {
 		background-color: #0e2f28;
 	}
+
+	&:disabled {
+		background-color: #a7a7a7;
+		cursor: not-allowed;
+
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: #a7a7a7 !important;
+		}
+	}
 }
 
 footer nav ul {
