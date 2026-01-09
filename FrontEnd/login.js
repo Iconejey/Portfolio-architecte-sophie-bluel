@@ -19,7 +19,7 @@ async function login(email, password) {
 		const data = await response.json();
 
 		// If user not found, throw specific error
-		if (data?.message === 'user not found') throw new Error("Erreur dans l'identifiant ou le mot de passe");
+		if (data?.message === 'user not found' || response.status === 401) throw new Error("Erreur dans l'identifiant ou le mot de passe");
 
 		// Store token and redirect to homepage
 		localStorage.setItem('token', data.token);
